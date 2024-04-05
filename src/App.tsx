@@ -1,8 +1,5 @@
+import { Button } from 'antd'
 import './styles.css'
 export const App = () => {
-  return (
-    <>
-      <h1>Avito Tech dfsdfds</h1>
-    </>
-  )
+  return <Button type="primary">Кнопка для проверки antd</Button>
 }
