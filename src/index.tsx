@@ -1,22 +1,15 @@
 import ReactDOM from 'react-dom/client'
 import { App } from './App'
 import { StrictMode } from 'react'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import { Test } from './Test'
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-  },
-  {
-    path: '/test',
-    element: <Test />,
-  },
-])
+import { BrowserRouter } from 'react-router-dom'
+import { LayoutProvider } from './components/LayoutProvider'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <LayoutProvider>
+        <App />
+      </LayoutProvider>
+    </BrowserRouter>
   </StrictMode>
 )

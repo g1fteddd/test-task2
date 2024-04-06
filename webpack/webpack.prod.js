@@ -1,13 +1,13 @@
-const webpack = require("webpack");
+const webpack = require('webpack')
 
 module.exports = {
-    mode: "production",
-    devtool: "source-map",
-    plugins: [
-        new webpack.DefinePlugin({
-            "process.env": {
-                TOKEN: JSON.stringify(process.env.TOKEN),
-            },
-        }),
-    ],
-};
+  mode: 'production',
+  devtool: 'source-map',
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        TOKEN: JSON.stringify(process.env.TOKEN),
+      },
+    }),
+  ],
+}
