@@ -6,6 +6,7 @@ import { NotFoundPage } from '../../pages/NotFoundPage'
 export enum AppRoutes {
   MOVIES = 'movies',
   FILM = 'film',
+  RANDOM = 'random',
   NOT_FOUND = 'not_found',
 }
 
@@ -17,6 +18,7 @@ export interface RouteConfig {
 export const RoutePath: Record<AppRoutes, string> = {
   [AppRoutes.MOVIES]: '/',
   [AppRoutes.FILM]: '/film/:id',
+  [AppRoutes.RANDOM]: '/random',
   [AppRoutes.NOT_FOUND]: '*',
 }
 
@@ -27,6 +29,10 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   },
   [AppRoutes.FILM]: {
     path: RoutePath.film,
+    element: <FilmPage />,
+  },
+  [AppRoutes.RANDOM]: {
+    path: RoutePath.random,
     element: <FilmPage />,
   },
   [AppRoutes.NOT_FOUND]: {
