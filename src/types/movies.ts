@@ -22,3 +22,8 @@ export interface MoviesResponse {
   pages: number
   total: number
 }
+
+export type PossibleValuesByFieldResponse = {
+  name: string | number
+  slug: string
+}[]

@@ -7,6 +7,7 @@ import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
 import { useEffect, useState } from 'react'
 import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
+import { MoviesFilters } from '../../components/MoviesFilters'
 
 interface SearchMoviesParams {
   page: string
@@ -76,8 +77,10 @@ const MoviesPage = () => {
         />
       </Flex>
       <Row>
-        <Col span={6}>filters</Col>
-        <Col span={18}>
+        <Col span={6}>
+          <MoviesFilters />
+        </Col>
+        <Col span={16} offset={2}>
           <MoviesList movies={data.data.docs} />
         </Col>
       </Row>
