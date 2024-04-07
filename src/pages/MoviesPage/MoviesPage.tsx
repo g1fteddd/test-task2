@@ -9,7 +9,19 @@ import qs from 'qs'
 import { useNavigate } from 'react-router-dom'
 import { MoviesFilters } from '../../components/MoviesFilters'
 
-interface SearchMoviesParams {
+export enum FilterMoviesKeys {
+  COUNTRIES = 'countries.name',
+  AGE_RATING = 'ageRating',
+  YEAR = 'year',
+}
+
+export interface FilterMovies {
+  [FilterMoviesKeys.COUNTRIES]: string
+  [FilterMoviesKeys.AGE_RATING]: string
+  [FilterMoviesKeys.YEAR]: string
+}
+
+interface SearchMoviesParams extends FilterMovies {
   page: string
   pageSize: string
 }
@@ -18,16 +30,22 @@ const MoviesPage = () => {
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
+  const [filters, setFilters] = useState<FilterMovies>({
+    [FilterMoviesKeys.COUNTRIES]: '',
+    [FilterMoviesKeys.AGE_RATING]: '',
+    [FilterMoviesKeys.YEAR]: '',
+  })
 
   //FIXME: вынести в отдельные хуки
   const { data, status } = useQuery({
-    queryKey: ['movie', page, pageSize],
+    queryKey: ['movie', page, pageSize, filters],
     queryFn: () =>
       movieService.getMovie({
         config: {
           params: {
             page,
             limit: pageSize,
+            ...filters,
           },
         },
       }),
@@ -37,6 +55,11 @@ const MoviesPage = () => {
     setPage(page)
     setPageSize(pageSize)
   }
+
+  const handleChangeFilter = (key: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
+  }
+
   //FIXME: исправить баг с двумя запросами, если фильтры сохранены в url
   useEffect(() => {
     if (window.location.search) {
@@ -53,6 +76,7 @@ const MoviesPage = () => {
     const queryString = qs.stringify({
       page,
       pageSize,
+      //TODO: добавить фильтры и подумать, как можно по другому вытягивать query параметры
     })
 
     navigate(`?${queryString}`)
@@ -78,7 +102,10 @@ const MoviesPage = () => {
       </Flex>
       <Row>
         <Col span={6}>
-          <MoviesFilters />
+          <MoviesFilters
+            filters={filters}
+            onChangeFilter={handleChangeFilter}
+          />
         </Col>
         <Col span={16} offset={2}>
           <MoviesList movies={data.data.docs} />
