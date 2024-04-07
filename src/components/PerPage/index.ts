@@ -1,1 +1,0 @@
-export { PerPage } from './PerPage'

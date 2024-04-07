@@ -8,7 +8,7 @@ const { Meta } = Card
 interface MoviesListProps {
   movies: Movie[]
 }
-
+//FIXME: обработать моменты, когда нету постера, названия, стран и тд
 export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
   return (
     <Flex wrap="wrap" gap="small">
@@ -18,7 +18,10 @@ export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
           hoverable
           className={styles.card}
           cover={
-            <img alt={`Постер фильма '${movie.name}'`} src={movie.poster.url} />
+            <img
+              alt={`Постер фильма '${movie.name}'`}
+              src={movie.poster?.url}
+            />
           }
         >
           <Meta
