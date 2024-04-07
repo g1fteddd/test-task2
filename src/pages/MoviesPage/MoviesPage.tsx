@@ -4,9 +4,17 @@ import movieService from '../../api/entities/movie'
 import { MoviesList } from '../../components/MoviesList'
 import { PageLoader } from '../../components/PageLoader'
 import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import qs from 'qs'
+import { useNavigate } from 'react-router-dom'
+
+interface SearchMoviesParams {
+  page: string
+  pageSize: string
+}
 
 const MoviesPage = () => {
+  const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
 
@@ -24,12 +32,30 @@ const MoviesPage = () => {
       }),
   })
 
-  console.log(data?.data)
-
   const handleChangePage = (page: number, pageSize: number) => {
     setPage(page)
     setPageSize(pageSize)
   }
+  //FIXME: исправить баг с двумя запросами, если фильтры сохранены в url
+  useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(
+        window.location.search.substring(1)
+      ) as unknown as SearchMoviesParams
+
+      setPage(parseInt(params.page, 10))
+      setPageSize(parseInt(params.pageSize, 10))
+    }
+  }, [])
+
+  useEffect(() => {
+    const queryString = qs.stringify({
+      page,
+      pageSize,
+    })
+
+    navigate(`?${queryString}`)
+  }, [navigate, page, pageSize])
 
   //FIXME: сделать скелетоны
   if (status === 'pending') {
