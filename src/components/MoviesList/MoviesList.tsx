@@ -2,6 +2,7 @@ import { Card, Flex, Tag } from 'antd'
 import { Movie } from '../../api/types/movies'
 import { FC } from 'react'
 import styles from './MoviesList.module.scss'
+import { Link } from 'react-router-dom'
 
 const { Meta } = Card
 
@@ -13,39 +14,40 @@ export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
   return (
     <Flex wrap="wrap" gap="small">
       {movies.map((movie) => (
-        <Card
-          key={movie.id}
-          hoverable
-          className={styles.card}
-          cover={
-            <img
-              alt={`Постер фильма '${movie.name}'`}
-              src={movie.poster?.url}
-            />
-          }
-        >
-          <Meta
-            title={movie.name}
-            description={
-              <div>
-                <div>
-                  Страна:{' '}
-                  {movie.countries.map((country) => (
-                    <Tag key={country.name} color="purple">
-                      {country.name}
-                    </Tag>
-                  ))}
-                </div>
-                <div>
-                  Год производства: <Tag color="purple">{movie.year}</Tag>
-                </div>
-                <div>
-                  Возраст: <Tag>{movie.ageRating}+</Tag>
-                </div>
-              </div>
+        <Link key={movie.id} to={{ pathname: `/film/${movie.id}` }}>
+          <Card
+            hoverable
+            className={styles.card}
+            cover={
+              <img
+                alt={`Постер фильма '${movie.name}'`}
+                src={movie.poster?.url}
+              />
             }
-          />
-        </Card>
+          >
+            <Meta
+              title={movie.name}
+              description={
+                <div>
+                  <div>
+                    Страна:{' '}
+                    {movie.countries.map((country) => (
+                      <Tag key={country.name} color="purple">
+                        {country.name}
+                      </Tag>
+                    ))}
+                  </div>
+                  <div>
+                    Год производства: <Tag color="purple">{movie.year}</Tag>
+                  </div>
+                  <div>
+                    Возраст: <Tag>{movie.ageRating}+</Tag>
+                  </div>
+                </div>
+              }
+            />
+          </Card>
+        </Link>
       ))}
     </Flex>
   )
