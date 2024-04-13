@@ -2,24 +2,21 @@ import styles from './MoviesFilters.module.scss'
 import { Collapse, CollapseProps, Select } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import movieService from '../../api/entities/movie'
-import { FC } from 'react'
-import {
-  FilterMovies,
-  FilterMoviesKeys,
-} from '../../pages/MoviesPage/MoviesPage'
+import { FilterMoviesKeys } from '../../pages/MoviesPage/MoviesPage'
 import { genetateSegmentNumber } from '../../utils/lib/generateSegmentNumbers'
 import { AGE_OPTIONS } from '../../utils/consts/otherConsts'
 
 interface MoviesFiltersProps {
-  filters: FilterMovies
+  filters: URLSearchParams
   onChangeFilter: (key: FilterMoviesKeys, value: string) => void
 }
 
 // TODO: подумать как разместить все типы по файлам
-export const MoviesFilters: FC<MoviesFiltersProps> = ({
+export const MoviesFilters = ({
   filters,
   onChangeFilter,
-}) => {
+}: MoviesFiltersProps) => {
+  console.log('filters', filters.get(FilterMoviesKeys.AGE_RATING))
   const { data, isLoading } = useQuery({
     queryKey: ['countries'],
     queryFn: () =>
@@ -40,7 +37,7 @@ export const MoviesFilters: FC<MoviesFiltersProps> = ({
       label: 'Страна',
       children: (
         <Select
-          value={filters[FilterMoviesKeys.COUNTRIES]}
+          value={filters.get(FilterMoviesKeys.COUNTRIES) || null}
           onChange={(value) =>
             onChangeFilter(FilterMoviesKeys.COUNTRIES, value)
           }
@@ -62,7 +59,7 @@ export const MoviesFilters: FC<MoviesFiltersProps> = ({
       label: 'Год производства',
       children: (
         <Select
-          value={filters[FilterMoviesKeys.YEAR]}
+          value={filters.get(FilterMoviesKeys.YEAR) || null}
           onChange={(value) => onChangeFilter(FilterMoviesKeys.YEAR, value)}
           className={styles.filterSelect}
           placeholder="Выберите год"
@@ -80,7 +77,7 @@ export const MoviesFilters: FC<MoviesFiltersProps> = ({
       label: 'Возрастной рейтинг',
       children: (
         <Select
-          value={filters[FilterMoviesKeys.AGE_RATING]}
+          value={filters.get(FilterMoviesKeys.AGE_RATING) || null}
           onChange={(value) =>
             onChangeFilter(FilterMoviesKeys.AGE_RATING, value)
           }

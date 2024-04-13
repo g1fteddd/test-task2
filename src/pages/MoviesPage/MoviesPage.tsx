@@ -4,83 +4,64 @@ import movieService from '../../api/entities/movie'
 import { MoviesList } from '../../components/MoviesList'
 import { PageLoader } from '../../components/PageLoader'
 import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
-import { useEffect, useState } from 'react'
-import qs from 'qs'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { MoviesFilters } from '../../components/MoviesFilters'
 
 export enum FilterMoviesKeys {
+  PAGE = 'page',
+  LIMIT = 'limit',
   COUNTRIES = 'countries.name',
   AGE_RATING = 'ageRating',
   YEAR = 'year',
 }
 
 export interface FilterMovies {
+  [FilterMoviesKeys.PAGE]: string
+  [FilterMoviesKeys.LIMIT]: string
   [FilterMoviesKeys.COUNTRIES]: string
   [FilterMoviesKeys.AGE_RATING]: string
   [FilterMoviesKeys.YEAR]: string
 }
 
-interface SearchMoviesParams extends FilterMovies {
-  page: string
-  pageSize: string
-}
-
 const MoviesPage = () => {
-  const navigate = useNavigate()
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(10)
-  const [filters, setFilters] = useState<FilterMovies>({
-    [FilterMoviesKeys.COUNTRIES]: '',
-    [FilterMoviesKeys.AGE_RATING]: '',
-    [FilterMoviesKeys.YEAR]: '',
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
 
   //FIXME: вынести в отдельные хуки
   const { data, status } = useQuery({
-    queryKey: ['movie', page, pageSize, filters],
+    queryKey: ['movie', ...searchParams.entries()],
     queryFn: () =>
       movieService.getMovie({
         config: {
           params: {
-            page,
-            limit: pageSize,
-            ...filters,
+            [FilterMoviesKeys.PAGE]: searchParams.get(FilterMoviesKeys.PAGE),
+            [FilterMoviesKeys.LIMIT]: searchParams.get(FilterMoviesKeys.LIMIT),
+            [FilterMoviesKeys.COUNTRIES]: searchParams.get(
+              FilterMoviesKeys.COUNTRIES
+            ),
+            [FilterMoviesKeys.YEAR]: searchParams.get(FilterMoviesKeys.YEAR),
+            [FilterMoviesKeys.AGE_RATING]: searchParams.get(
+              FilterMoviesKeys.AGE_RATING
+            ),
           },
         },
       }),
   })
 
-  const handleChangePage = (page: number, pageSize: number) => {
-    setPage(page)
-    setPageSize(pageSize)
-  }
-
-  const handleChangeFilter = (key: string, value: string) => {
-    setFilters((prev) => ({ ...prev, [key]: value }))
-  }
-
-  //FIXME: исправить баг с двумя запросами, если фильтры сохранены в url
-  useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(
-        window.location.search.substring(1)
-      ) as unknown as SearchMoviesParams
-
-      setPage(parseInt(params.page, 10))
-      setPageSize(parseInt(params.pageSize, 10))
-    }
-  }, [])
-
-  useEffect(() => {
-    const queryString = qs.stringify({
-      page,
-      pageSize,
-      //TODO: добавить фильтры и подумать, как можно по другому вытягивать query параметры
+  const updateSearchParams = (key: FilterMoviesKeys, value: string) => {
+    setSearchParams((searchParams) => {
+      searchParams.set(key, value)
+      return searchParams
     })
+  }
 
-    navigate(`?${queryString}`)
-  }, [navigate, page, pageSize])
+  const handleChangePage = (page: number, pageSize: number) => {
+    updateSearchParams(FilterMoviesKeys.PAGE, `${page}`)
+    updateSearchParams(FilterMoviesKeys.LIMIT, `${pageSize}`)
+  }
+
+  const handleChangeFilter = (key: FilterMoviesKeys, value: string) => {
+    updateSearchParams(key, value ? value : '')
+  }
 
   //FIXME: сделать скелетоны
   if (status === 'pending') {
@@ -94,8 +75,11 @@ const MoviesPage = () => {
       <Flex justify="flex-end">
         <Pagination
           showQuickJumper
-          current={page}
-          pageSize={pageSize}
+          current={parseInt(searchParams.get(FilterMoviesKeys.PAGE) || '1', 10)}
+          pageSize={parseInt(
+            searchParams.get(FilterMoviesKeys.LIMIT) || '10',
+            10
+          )}
           total={data.data.total}
           onChange={handleChangePage}
         />
@@ -103,7 +87,7 @@ const MoviesPage = () => {
       <Row>
         <Col span={6}>
           <MoviesFilters
-            filters={filters}
+            filters={searchParams}
             onChangeFilter={handleChangeFilter}
           />
         </Col>
@@ -114,8 +98,11 @@ const MoviesPage = () => {
       <Flex justify="flex-end">
         <Pagination
           showQuickJumper
-          current={page}
-          pageSize={pageSize}
+          current={parseInt(searchParams.get(FilterMoviesKeys.PAGE) || '1', 10)}
+          pageSize={parseInt(
+            searchParams.get(FilterMoviesKeys.LIMIT) || '10',
+            10
+          )}
           total={data.data.total}
           onChange={handleChangePage}
         />
