@@ -1,5 +1,5 @@
 import { Card, Flex, Tag } from 'antd'
-import { Movie } from '../../types/movies'
+import { Movie } from '../../api/types/movies'
 import { FC } from 'react'
 import styles from './MoviesList.module.scss'
 

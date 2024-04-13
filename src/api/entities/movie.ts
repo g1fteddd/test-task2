@@ -1,7 +1,8 @@
 import {
+  MovieByIdResponse,
   MoviesResponse,
   PossibleValuesByFieldResponse,
-} from '../../types/movies'
+} from '../types/movies'
 import { api } from '../instance'
 
 const movieService = {
@@ -14,10 +15,10 @@ const movieService = {
   }: AxiosRequestConfig<{
     id: string
   }>) {
-    return api.get(`v1.4/movie/${params.id}`, config)
+    return api.get<MovieByIdResponse>(`v1.4/movie/${params.id}`, config)
   },
   getMovieSearch(requestConfig?: AxiosRequestConfig) {
-    return api.get(`v1.4/movie/search`, requestConfig?.config)
+    return api.get<MoviesResponse>(`v1.4/movie/search`, requestConfig?.config)
   },
   getMoviePossibleValuesByField(requestConfig?: AxiosRequestConfig) {
     return api.get<PossibleValuesByFieldResponse>(

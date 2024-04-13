@@ -33,7 +33,8 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
   },
   [AppRoutes.RANDOM]: {
     path: RoutePath.random,
-    element: <FilmPage />,
+    //TODO: поменять компонент
+    element: <div>RandomFilm</div>,
   },
   [AppRoutes.NOT_FOUND]: {
     path: RoutePath.not_found,

@@ -1,11 +1,14 @@
 import { Layout, theme } from 'antd'
-import { FC, PropsWithChildren } from 'react'
 import styles from './LayoutProvider.module.scss'
 import { Navbar } from '../Navbar'
 
 const { Header, Content, Footer } = Layout
 
-export const LayoutProvider: FC<PropsWithChildren> = ({ children }) => {
+interface LayoutProviderProps {
+  children: React.ReactNode
+}
+
+export const LayoutProvider = ({ children }: LayoutProviderProps) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken()
