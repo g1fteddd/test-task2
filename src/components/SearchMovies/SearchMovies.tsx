@@ -19,12 +19,13 @@ export const SearchMovies = ({ className }: SearchMoviesProps) => {
 
   const { data } = useQuery({
     queryKey: ['search', searchValue],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       movieService.getMovieSearch({
         config: {
           params: {
             query: searchValue,
           },
+          signal,
         },
       }),
     enabled: !!searchValue,

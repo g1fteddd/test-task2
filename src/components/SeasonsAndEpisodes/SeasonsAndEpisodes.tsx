@@ -21,7 +21,7 @@ export const SeasonsAndEpisodes: FC<SeasonsAndEpisodesProps> = ({
 
   const { data, status } = useQuery({
     queryKey: ['reivews', movieId, page, pageSize],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       seasonService.getSeason({
         config: {
           params: {
@@ -31,6 +31,7 @@ export const SeasonsAndEpisodes: FC<SeasonsAndEpisodesProps> = ({
             sortField: 'number',
             sortType: 1,
           },
+          signal,
         },
       }),
     enabled: !!movieId,

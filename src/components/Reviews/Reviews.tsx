@@ -17,7 +17,7 @@ export const Reviews: FC<ReviewsProps> = ({ movieId }) => {
 
   const { data, status } = useQuery({
     queryKey: ['reivews', movieId, page, pageSize],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       reviewService.getReview({
         config: {
           params: {
@@ -25,6 +25,7 @@ export const Reviews: FC<ReviewsProps> = ({ movieId }) => {
             page,
             limit: pageSize,
           },
+          signal,
         },
       }),
     enabled: !!movieId,

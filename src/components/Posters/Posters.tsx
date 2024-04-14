@@ -10,12 +10,13 @@ interface PostersProps {
 export const Posters = ({ movieId }: PostersProps) => {
   const { data, status } = useQuery({
     queryKey: ['images', movieId],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       imageService.getImage({
         config: {
           params: {
             movieId,
           },
+          signal,
         },
       }),
     enabled: !!movieId,

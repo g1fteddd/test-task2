@@ -17,12 +17,13 @@ export const MoviesFilters = ({
 }: MoviesFiltersProps) => {
   const { data, isLoading } = useQuery({
     queryKey: ['countries'],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       movieService.getMoviePossibleValuesByField({
         config: {
           params: {
             field: 'countries.name',
           },
+          signal,
         },
       }),
   })

@@ -33,7 +33,13 @@ const FilmPage = () => {
   const { data, status } = useQuery({
     queryKey: ['movieById', id],
     // Думаю здесь уместно использовать каст. Enabled гарантирует то, что id будет не undefined
-    queryFn: () => movieService.getMovieById({ params: { id: id as string } }),
+    queryFn: ({ signal }) =>
+      movieService.getMovieById({
+        params: { id: id as string },
+        config: {
+          signal,
+        },
+      }),
     enabled: !!id,
     select: (data) => data.data,
   })

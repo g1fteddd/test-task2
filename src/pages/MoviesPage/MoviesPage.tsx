@@ -29,7 +29,7 @@ const MoviesPage = () => {
 
   const { data, status } = useQuery({
     queryKey: ['movie', ...searchParams.entries()],
-    queryFn: () =>
+    queryFn: ({ signal }) =>
       movieService.getMovie({
         config: {
           params: {
@@ -43,6 +43,7 @@ const MoviesPage = () => {
               FilterMoviesKeys.AGE_RATING
             ),
           },
+          signal,
         },
       }),
   })
