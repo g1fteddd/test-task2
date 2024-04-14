@@ -2,7 +2,10 @@ import { FC, useState } from 'react'
 import { Flex, List, Pagination } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import reviewService from '../../api/entities/review'
-import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
+import {
+  ERROR_MESSAGE,
+  NO_INFORMATION_ABOUT_REVIEWS,
+} from '../../utils/consts/textConsts'
 
 interface ReviewsProps {
   movieId: number
@@ -39,6 +42,10 @@ export const Reviews: FC<ReviewsProps> = ({ movieId }) => {
   }
   //FIXME: сделать отдельную страницу с ошибкой
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
+
+  if (!data.docs.length) {
+    return <p>{NO_INFORMATION_ABOUT_REVIEWS}</p>
+  }
 
   //TODO: подумать как можно вынести пагинацию
   return (

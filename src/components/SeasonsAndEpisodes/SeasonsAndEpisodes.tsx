@@ -2,7 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { FC, useState } from 'react'
 import seasonService from '../../api/entities/season'
 import { Card, Flex, Image, List, Pagination } from 'antd'
-import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
+import {
+  ERROR_MESSAGE,
+  NO_INFORMATION_ABOUT_SERIES,
+} from '../../utils/consts/textConsts'
 import styles from './SeasonsAndEpisodes.module.scss'
 
 interface SeasonsAndEpisodesProps {
@@ -45,7 +48,9 @@ export const SeasonsAndEpisodes: FC<SeasonsAndEpisodesProps> = ({
   //FIXME: сделать отдельную страницу с ошибкой
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
-  console.log('data', data)
+  if (!data.docs.length) {
+    return <p>{NO_INFORMATION_ABOUT_SERIES}</p>
+  }
 
   return (
     <Flex gap="large" vertical>
