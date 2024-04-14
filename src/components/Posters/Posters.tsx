@@ -22,12 +22,10 @@ export const Posters = ({ movieId }: PostersProps) => {
     select: (data) => data.data,
   })
 
-  console.log('data', data)
-  //FIXME: сделать скелетоны
   if (status === 'pending') {
     return null
   }
-  //FIXME: сделать отдельную страницу с ошибкой
+
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
   return (

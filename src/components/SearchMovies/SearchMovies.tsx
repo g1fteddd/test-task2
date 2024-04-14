@@ -31,9 +31,6 @@ export const SearchMovies = ({ className }: SearchMoviesProps) => {
     select: (data) => data.data,
   })
 
-  console.log('data', data)
-  console.log('searchValue', searchValue)
-
   const handleChange = (value: string) => {
     setSearchValue(value)
   }

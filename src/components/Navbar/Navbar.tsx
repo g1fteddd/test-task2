@@ -12,10 +12,6 @@ interface LinkConfig {
 export const Navbar = () => {
   const linkConfig: LinkConfig[] = [
     { key: AppRoutes.FILM, label: <Link to={RoutePath.movies}>Фильмы</Link> },
-    {
-      key: AppRoutes.RANDOM,
-      label: <Link to={RoutePath.random}>Случайный фильм</Link>,
-    },
   ]
 
   return (

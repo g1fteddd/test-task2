@@ -12,7 +12,7 @@ interface MoviesListProps {
   className?: string
   movies: Movie[]
 }
-//FIXME: обработать моменты, когда нету постера, названия, стран и тд
+
 export const MoviesList: FC<MoviesListProps> = ({ movies, className }) => {
   return (
     <div className={classNames(styles.MoviesList, className)}>

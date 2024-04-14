@@ -27,7 +27,6 @@ export interface FilterMovies {
 const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  //FIXME: вынести в отдельные хуки
   const { data, status } = useQuery({
     queryKey: ['movie', ...searchParams.entries()],
     queryFn: () =>
@@ -64,11 +63,10 @@ const MoviesPage = () => {
     updateSearchParams(key, value ? value : '')
   }
 
-  //FIXME: сделать скелетоны
   if (status === 'pending') {
     return <PageLoader />
   }
-  //FIXME: сделать отдельную страницу с ошибкой
+
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
   return (

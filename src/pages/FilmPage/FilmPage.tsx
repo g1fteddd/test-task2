@@ -37,7 +37,7 @@ const FilmPage = () => {
     enabled: !!id,
     select: (data) => data.data,
   })
-  //TODO: вынести в отдельных хук
+
   const { data: imagesData, status: imagesStatus } = useQuery({
     queryKey: ['images', id],
     queryFn: () =>
@@ -56,24 +56,15 @@ const FilmPage = () => {
     navigate(-1)
   }
 
-  //FIXME: сделать скелетоны
-  if (status === 'pending') {
+  if (status === 'pending' || imagesStatus === 'pending') {
     return null
   }
-  //FIXME: сделать отдельную страницу с ошибкой
-  if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
-  //FIXME: сделать скелетоны
-  if (imagesStatus === 'pending') {
-    return null
-  }
-  //FIXME: сделать отдельную страницу с ошибкой
-  if (imagesStatus === 'error') return <p>{ERROR_MESSAGE}</p>
+  if (status === 'error' || imagesStatus === 'error')
+    return <p>{ERROR_MESSAGE}</p>
 
-  //FIXME: подумать, как исправить
   if (!id) return null
 
-  //FIXME: исправить ключи
   const items: TabsProps['items'] = [
     {
       key: TabsMenu.ACTORS,
@@ -126,7 +117,6 @@ const FilmPage = () => {
               ))}
             </Carousel>
             <h3>Постеры</h3>
-            {/* FIXME: сделать проверку на пустую карусель */}
             <Carousel
               autoplay
               dotPosition="top"

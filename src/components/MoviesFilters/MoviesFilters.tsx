@@ -11,12 +11,10 @@ interface MoviesFiltersProps {
   onChangeFilter: (key: FilterMoviesKeys, value: string) => void
 }
 
-// TODO: подумать как разместить все типы по файлам
 export const MoviesFilters = ({
   filters,
   onChangeFilter,
 }: MoviesFiltersProps) => {
-  console.log('filters', filters.get(FilterMoviesKeys.AGE_RATING))
   const { data, isLoading } = useQuery({
     queryKey: ['countries'],
     queryFn: () =>
@@ -28,8 +26,6 @@ export const MoviesFilters = ({
         },
       }),
   })
-
-  console.log(data)
 
   const items: CollapseProps['items'] = [
     {
@@ -43,7 +39,6 @@ export const MoviesFilters = ({
           }
           className={styles.filterSelect}
           placeholder="Выберите страну"
-          //TODO: добавить поиск по странам
           loading={isLoading}
           disabled={isLoading}
           allowClear

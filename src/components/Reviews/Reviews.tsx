@@ -36,18 +36,16 @@ export const Reviews: FC<ReviewsProps> = ({ movieId }) => {
     setPageSize(pageSize)
   }
 
-  //FIXME: сделать скелетоны
   if (status === 'pending') {
     return null
   }
-  //FIXME: сделать отдельную страницу с ошибкой
+
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
   if (!data.docs.length) {
     return <p>{NO_INFORMATION_ABOUT_REVIEWS}</p>
   }
 
-  //TODO: подумать как можно вынести пагинацию
   return (
     <Flex gap="large" vertical>
       <List

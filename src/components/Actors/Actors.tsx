@@ -6,7 +6,7 @@ import { NO_INFORMATION_ABOUT_ACTORS } from '../../utils/consts/textConsts'
 interface ActorsProps {
   actors: Person[]
 }
-//FIXME: думаю можно вынести логику отображения листа, так как лист будет одинаковый в актёрах и отзывах(и карточки тоже)
+
 export const Actors: FC<ActorsProps> = ({ actors }) => {
   if (!actors.length) {
     return <p>{NO_INFORMATION_ABOUT_ACTORS}</p>
