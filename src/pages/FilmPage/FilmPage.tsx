@@ -1,7 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import movieService from '../../api/entities/movie'
-import { Carousel, Col, Flex, Image, Row, Tabs, TabsProps, Tag } from 'antd'
+import {
+  Button,
+  Carousel,
+  Col,
+  Flex,
+  Image,
+  Row,
+  Tabs,
+  TabsProps,
+  Tag,
+} from 'antd'
 import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
 import { Actors } from '../../components/Actors'
 import { Reviews } from '../../components/Reviews'
@@ -17,6 +27,7 @@ enum TabsMenu {
 }
 
 const FilmPage = () => {
+  const navigate = useNavigate()
   const { id } = useParams()
 
   const { data, status } = useQuery({
@@ -41,7 +52,9 @@ const FilmPage = () => {
     select: (data) => data.data,
   })
 
-  console.log('data', data)
+  const handleClick = () => {
+    navigate(-1)
+  }
 
   //FIXME: сделать скелетоны
   if (status === 'pending') {
@@ -85,6 +98,13 @@ const FilmPage = () => {
       <Row gutter={16}>
         <Col span={18}>
           <Flex vertical gap="middle">
+            <Button
+              type="primary"
+              className={styles.backBtn}
+              onClick={handleClick}
+            >
+              Назад
+            </Button>
             <h1>{data.name}</h1>
             <div>
               Рейтинг: <Tag>{data.rating.kp}</Tag>
