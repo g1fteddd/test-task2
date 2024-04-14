@@ -1,3 +1,10 @@
+.MoviesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
 .card {
   width: 200px;
 }

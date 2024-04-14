@@ -1,18 +1,21 @@
-import { Card, Flex, Tag } from 'antd'
+import { Card, Tag } from 'antd'
 import { Movie } from '../../api/types/movies'
 import { FC } from 'react'
 import styles from './MoviesList.module.scss'
 import { Link } from 'react-router-dom'
+import { POSTER_EMPTY_URL } from '../../utils/consts/textConsts'
+import classNames from 'classnames'
 
 const { Meta } = Card
 
 interface MoviesListProps {
+  className?: string
   movies: Movie[]
 }
 //FIXME: обработать моменты, когда нету постера, названия, стран и тд
-export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
+export const MoviesList: FC<MoviesListProps> = ({ movies, className }) => {
   return (
-    <Flex wrap="wrap" gap="small">
+    <div className={classNames(styles.MoviesList, className)}>
       {movies.map((movie) => (
         <Link key={movie.id} to={{ pathname: `/film/${movie.id}` }}>
           <Card
@@ -21,12 +24,12 @@ export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
             cover={
               <img
                 alt={`Постер фильма '${movie.name}'`}
-                src={movie.poster?.url}
+                src={movie.poster?.url || POSTER_EMPTY_URL}
               />
             }
           >
             <Meta
-              title={movie.name}
+              title={movie.name || movie.alternativeName}
               description={
                 <div>
                   <div>
@@ -40,15 +43,17 @@ export const MoviesList: FC<MoviesListProps> = ({ movies }) => {
                   <div>
                     Год производства: <Tag color="purple">{movie.year}</Tag>
                   </div>
-                  <div>
-                    Возраст: <Tag>{movie.ageRating}+</Tag>
-                  </div>
+                  {!!movie.ageRating && (
+                    <div>
+                      Возраст: <Tag>{movie.ageRating}+</Tag>
+                    </div>
+                  )}
                 </div>
               }
             />
           </Card>
         </Link>
       ))}
-    </Flex>
+    </div>
   )
 }

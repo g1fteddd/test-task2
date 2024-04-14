@@ -39,6 +39,7 @@ export interface Movie {
   persons: Person[]
   isSeries: boolean
   similarMovies: SimularMovie[]
+  alternativeName: string
 }
 
 export interface MoviesResponse {

@@ -1,13 +1,16 @@
 import { AutoComplete } from 'antd'
 import { useState } from 'react'
-import styles from './SearchMovies.module.scss'
 import { useQuery } from '@tanstack/react-query'
 import movieService from '../../api/entities/movie'
 import { useNavigate } from 'react-router-dom'
 import { useLocalStorage } from '../../utils/hooks/useLocalStorage'
 import { MAX_SEARCH_HISTORY_ELEMENTS } from '../../utils/consts/numberConsts'
 
-export const SearchMovies = () => {
+interface SearchMoviesProps {
+  className?: string
+}
+
+export const SearchMovies = ({ className }: SearchMoviesProps) => {
   const navigate = useNavigate()
   const [searchValue, setSearchValue] = useState('')
   const [searchHistory, setSearchHistory] = useLocalStorage<
@@ -60,7 +63,7 @@ export const SearchMovies = () => {
       onSearch={handleChange}
       onSelect={handleSelect}
       showSearch
-      className={styles.AutoComplete}
+      className={className}
       options={options}
     />
   )

@@ -1,4 +1,4 @@
-import { Col, Flex, Pagination, Row } from 'antd'
+import { Pagination } from 'antd'
 import { useQuery } from '@tanstack/react-query'
 import movieService from '../../api/entities/movie'
 import { MoviesList } from '../../components/MoviesList'
@@ -7,7 +7,7 @@ import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
 import { useSearchParams } from 'react-router-dom'
 import { MoviesFilters } from '../../components/MoviesFilters'
 import { SearchMovies } from '../../components/SearchMovies'
-
+import styles from './MoviesPage.module.scss'
 export enum FilterMoviesKeys {
   PAGE = 'page',
   LIMIT = 'limit',
@@ -72,9 +72,19 @@ const MoviesPage = () => {
   if (status === 'error') return <p>{ERROR_MESSAGE}</p>
 
   return (
-    <Flex gap="large" vertical>
-      <Flex justify="flex-end">
-        <SearchMovies />
+    <div className={styles.MoviesPage}>
+      <div className={styles.searchContainer}>
+        <SearchMovies className={styles.search} />
+      </div>
+
+      <div className={styles.mainContainer}>
+        <MoviesFilters
+          filters={searchParams}
+          onChangeFilter={handleChangeFilter}
+        />
+        <MoviesList className={styles.movieList} movies={data.data.docs} />
+      </div>
+      <div className={styles.pagination}>
         <Pagination
           showQuickJumper
           current={parseInt(searchParams.get(FilterMoviesKeys.PAGE) || '1', 10)}
@@ -85,31 +95,8 @@ const MoviesPage = () => {
           total={data.data.total}
           onChange={handleChangePage}
         />
-      </Flex>
-      <Row>
-        <Col span={6}>
-          <MoviesFilters
-            filters={searchParams}
-            onChangeFilter={handleChangeFilter}
-          />
-        </Col>
-        <Col span={16} offset={2}>
-          <MoviesList movies={data.data.docs} />
-        </Col>
-      </Row>
-      <Flex justify="flex-end">
-        <Pagination
-          showQuickJumper
-          current={parseInt(searchParams.get(FilterMoviesKeys.PAGE) || '1', 10)}
-          pageSize={parseInt(
-            searchParams.get(FilterMoviesKeys.LIMIT) || '10',
-            10
-          )}
-          total={data.data.total}
-          onChange={handleChangePage}
-        />
-      </Flex>
-    </Flex>
+      </div>
+    </div>
   )
 }
 
