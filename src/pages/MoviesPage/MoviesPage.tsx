@@ -6,6 +6,7 @@ import { PageLoader } from '../../components/PageLoader'
 import { ERROR_MESSAGE } from '../../utils/consts/textConsts'
 import { useSearchParams } from 'react-router-dom'
 import { MoviesFilters } from '../../components/MoviesFilters'
+import { SearchMovies } from '../../components/SearchMovies'
 
 export enum FilterMoviesKeys {
   PAGE = 'page',
@@ -73,6 +74,7 @@ const MoviesPage = () => {
   return (
     <Flex gap="large" vertical>
       <Flex justify="flex-end">
+        <SearchMovies />
         <Pagination
           showQuickJumper
           current={parseInt(searchParams.get(FilterMoviesKeys.PAGE) || '1', 10)}

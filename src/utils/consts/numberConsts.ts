@@ -1,0 +1,1 @@
+export const MAX_SEARCH_HISTORY_ELEMENTS = 10
