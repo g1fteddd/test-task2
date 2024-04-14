@@ -1,1 +1,2 @@
 export const MAX_SEARCH_HISTORY_ELEMENTS = 10
+export const DEBOUNCE_DELAY = 1000
