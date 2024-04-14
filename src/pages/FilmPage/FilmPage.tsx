@@ -112,13 +112,6 @@ const FilmPage = () => {
             <p>
               {!!data.description ? data.description : data.shortDescription}
             </p>
-            <h3>Постеры</h3>
-            {/* FIXME: сделать проверку на пустую карусель */}
-            <Carousel autoplay autoplaySpeed={1000} className={styles.carousel}>
-              {imagesData.docs.map((image) => (
-                <Image key={image.id} src={image.url} />
-              ))}
-            </Carousel>
             <h3>Похожие фильмы:</h3>
             <Carousel
               dotPosition="top"
@@ -130,6 +123,18 @@ const FilmPage = () => {
                 <Link key={movie.id} to={{ pathname: `/film/${movie.id}` }}>
                   <Image src={movie.poster.url} preview={false} />
                 </Link>
+              ))}
+            </Carousel>
+            <h3>Постеры</h3>
+            {/* FIXME: сделать проверку на пустую карусель */}
+            <Carousel
+              autoplay
+              dotPosition="top"
+              autoplaySpeed={1000}
+              className={styles.carousel}
+            >
+              {imagesData.docs.map((image) => (
+                <Image key={image.id} src={image.url} />
               ))}
             </Carousel>
           </Flex>

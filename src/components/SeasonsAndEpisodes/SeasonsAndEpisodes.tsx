@@ -5,6 +5,7 @@ import { Card, Flex, Image, List, Pagination } from 'antd'
 import {
   ERROR_MESSAGE,
   NO_INFORMATION_ABOUT_SERIES,
+  POSTER_EMPTY_URL,
 } from '../../utils/consts/textConsts'
 import styles from './SeasonsAndEpisodes.module.scss'
 
@@ -69,7 +70,7 @@ export const SeasonsAndEpisodes: FC<SeasonsAndEpisodesProps> = ({
                       height={200}
                       alt={`Постер '${episode.name}'`}
                       src={episode.still.url}
-                      fallback="https://xn----etbpba5admdlad.xn--p1ai/pictures/$2y$10$cQQXK7aTxwLssgEto71R.JaAmun2hRPEsEhBa0Ziok4JmM0YLcG.jpeg"
+                      fallback={POSTER_EMPTY_URL}
                     />
                   }
                   key={episode.number}
